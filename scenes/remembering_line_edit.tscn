@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://5aa4jpqbuluw"]
+
+[ext_resource type="Script" uid="uid://cs0doguhyxnk5" path="res://scripts/remembering_line_edit.gd" id="1_fm0h6"]
+
+[node name="RememberingLineEdit" type="LineEdit" unique_id=1915387452]
+offset_right = 68.5
+offset_bottom = 31.0
+script = ExtResource("1_fm0h6")
