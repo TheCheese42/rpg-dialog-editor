@@ -1,10 +1,21 @@
 [gd_scene format=3 uid="uid://o4vmdhgwcm6i"]
 
+[ext_resource type="Script" uid="uid://d20j5drr0l6lg" path="res://scripts/conversation_list.gd" id="1_eqbpn"]
 [ext_resource type="Texture2D" uid="uid://11rm3mul8o70" path="res://assets/icons/plus.svg" id="1_q68jb"]
 [ext_resource type="Script" uid="uid://4bw8v0ghhy45" path="res://scripts/presets_bar.gd" id="1_xg7d5"]
 [ext_resource type="Texture2D" uid="uid://461axgs7yb4j" path="res://assets/icons/chevron-down.svg" id="2_pxqd5"]
 [ext_resource type="Texture2D" uid="uid://djgncvjomwy28" path="res://assets/icons/minus.svg" id="2_xg7d5"]
 [ext_resource type="Texture2D" uid="uid://6u7pclq2qaxl" path="res://assets/icons/chevron-up.svg" id="3_xg7d5"]
+[ext_resource type="Script" uid="uid://nl8pupqgnqqh" path="res://scripts/main_editor.gd" id="6_5lcyj"]
+[ext_resource type="Script" uid="uid://dbvfw3fja27c" path="res://scripts/conversation_tree.gd" id="7_5tm2q"]
+[ext_resource type="Texture2D" uid="uid://q7cgpra2wlkd" path="res://assets/icons/volume-2.svg" id="8_78fwb"]
+[ext_resource type="Script" uid="uid://7t77d0d7n37v" path="res://scripts/drag_button.gd" id="8_j8y2p"]
+[ext_resource type="Texture2D" uid="uid://dvwwbps35gv81" path="res://assets/icons/trash-2.svg" id="9_o435n"]
+[ext_resource type="Texture2D" uid="uid://b2ehj1vacwnck" path="res://assets/icons/file-text.svg" id="10_74j0u"]
+[ext_resource type="Texture2D" uid="uid://c83e7f4sxjfos" path="res://assets/icons/git-branch.svg" id="11_2w0at"]
+[ext_resource type="Texture2D" uid="uid://d03l1hqeyddyu" path="res://assets/icons/arrow-right-circle.svg" id="12_5tdu1"]
+[ext_resource type="Texture2D" uid="uid://b6uxfj2detjjx" path="res://assets/icons/code.svg" id="13_q8l03"]
+[ext_resource type="Script" uid="uid://b048x7kuipf6n" path="res://scripts/delete_button.gd" id="15_5tdu1"]
 
 [node name="Editor" type="Control" unique_id=722688059]
 layout_mode = 3
@@ -26,117 +37,318 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1721408613]
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer" unique_id=1849639843]
 layout_mode = 2
+theme_override_constants/separation = 24
+theme_override_constants/autohide = 0
+split_offsets = PackedInt32Array(200, 224)
+split_offset = 200
 
-[node name="Control" type="Control" parent="MarginContainer/HBoxContainer" unique_id=1005656624]
+[node name="ConversationList" type="VBoxContainer" parent="MarginContainer/HSplitContainer" unique_id=1754030113]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+script = ExtResource("1_eqbpn")
+
+[node name="Label" type="Label" parent="MarginContainer/HSplitContainer/ConversationList" unique_id=107578414]
+layout_mode = 2
+text = "Conversations"
+horizontal_alignment = 1
+
+[node name="ConversationList" type="ItemList" parent="MarginContainer/HSplitContainer/ConversationList" unique_id=931758416]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HSplitContainer/ConversationList" unique_id=1106022468]
+layout_mode = 2
+alignment = 1
+
+[node name="ConversationAddButton" type="TextureButton" parent="MarginContainer/HSplitContainer/ConversationList/HBoxContainer" unique_id=639046899]
+layout_mode = 2
+texture_normal = ExtResource("1_q68jb")
+
+[node name="ConversationRemoveButton" type="TextureButton" parent="MarginContainer/HSplitContainer/ConversationList/HBoxContainer" unique_id=22660835]
+layout_mode = 2
+texture_normal = ExtResource("2_xg7d5")
+
+[node name="ConversationUpButton" type="TextureButton" parent="MarginContainer/HSplitContainer/ConversationList/HBoxContainer" unique_id=1616280119]
+layout_mode = 2
+texture_normal = ExtResource("3_xg7d5")
+
+[node name="ConversationDownButton" type="TextureButton" parent="MarginContainer/HSplitContainer/ConversationList/HBoxContainer" unique_id=946965891]
+layout_mode = 2
+texture_normal = ExtResource("2_pxqd5")
+
+[node name="MainEditor" type="VBoxContainer" parent="MarginContainer/HSplitContainer" unique_id=365575174]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+script = ExtResource("6_5lcyj")
+
+[node name="Label" type="Label" parent="MarginContainer/HSplitContainer/MainEditor" unique_id=345977875]
+layout_mode = 2
+text = "Edit Conversation"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HSplitContainer/MainEditor" unique_id=226213014]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="MarginContainer/HSplitContainer/MainEditor/HBoxContainer" unique_id=1594622196]
+layout_mode = 2
+text = "ID:"
+
+[node name="IDEdit" type="LineEdit" parent="MarginContainer/HSplitContainer/MainEditor/HBoxContainer" unique_id=1858571327]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PresetsBar" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=1691377491]
+[node name="Control" type="Control" parent="MarginContainer/HSplitContainer/MainEditor/HBoxContainer" unique_id=2058316963]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MarginContainer/HSplitContainer/MainEditor/HBoxContainer" unique_id=113412293]
+layout_mode = 2
+text = "Preset:"
+
+[node name="PresetOption" type="OptionButton" parent="MarginContainer/HSplitContainer/MainEditor/HBoxContainer" unique_id=438280097]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Tree" type="Tree" parent="MarginContainer/HSplitContainer/MainEditor" unique_id=1178056677 groups=["conversation_tree"]]
 layout_mode = 2
 size_flags_vertical = 3
+hide_root = true
+select_mode = 2
+script = ExtResource("7_5tm2q")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HSplitContainer/MainEditor" unique_id=633969080]
+layout_mode = 2
+
+[node name="SpeakerButton" type="Button" parent="MarginContainer/HSplitContainer/MainEditor/HBoxContainer2" unique_id=319851035]
+layout_mode = 2
+text = "Speaker"
+icon = ExtResource("8_78fwb")
+script = ExtResource("8_j8y2p")
+
+[node name="PageButton" type="Button" parent="MarginContainer/HSplitContainer/MainEditor/HBoxContainer2" unique_id=1495216385]
+layout_mode = 2
+text = "Page"
+icon = ExtResource("10_74j0u")
+script = ExtResource("8_j8y2p")
+
+[node name="ChoiceButton" type="Button" parent="MarginContainer/HSplitContainer/MainEditor/HBoxContainer2" unique_id=418931512]
+layout_mode = 2
+text = "Choice"
+icon = ExtResource("11_2w0at")
+script = ExtResource("8_j8y2p")
+
+[node name="GotoButton" type="Button" parent="MarginContainer/HSplitContainer/MainEditor/HBoxContainer2" unique_id=267263886]
+layout_mode = 2
+text = "Goto"
+icon = ExtResource("12_5tdu1")
+script = ExtResource("8_j8y2p")
+
+[node name="ScriptButton" type="Button" parent="MarginContainer/HSplitContainer/MainEditor/HBoxContainer2" unique_id=916103173]
+layout_mode = 2
+text = "Script"
+icon = ExtResource("13_q8l03")
+script = ExtResource("8_j8y2p")
+
+[node name="Control" type="Control" parent="MarginContainer/HSplitContainer/MainEditor/HBoxContainer2" unique_id=403973716]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DeleteButton" type="Button" parent="MarginContainer/HSplitContainer/MainEditor/HBoxContainer2" unique_id=1926820436]
+layout_mode = 2
+text = "Delete"
+icon = ExtResource("9_o435n")
+script = ExtResource("15_5tdu1")
+
+[node name="PresetsBar" type="VSplitContainer" parent="MarginContainer/HSplitContainer" unique_id=1235648016]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_vertical = 3
+split_offsets = PackedInt32Array(0, 0, 0)
 script = ExtResource("1_xg7d5")
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PresetsBar" unique_id=1277683511]
+[node name="VBoxContainer4" type="VBoxContainer" parent="MarginContainer/HSplitContainer/PresetsBar" unique_id=2021067296]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer4" unique_id=29526977]
+layout_mode = 2
+text = "Generic Presets"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer4" unique_id=2139512622]
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="GenericPresetGrid" type="GridContainer" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer4/ScrollContainer" unique_id=618634975]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer4" unique_id=1195412174]
+layout_mode = 2
+alignment = 1
+
+[node name="GenericAddButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer4/HBoxContainer" unique_id=853764827]
+layout_mode = 2
+texture_normal = ExtResource("1_q68jb")
+
+[node name="GenericRemoveButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer4/HBoxContainer" unique_id=367986965]
+layout_mode = 2
+texture_normal = ExtResource("2_xg7d5")
+
+[node name="GenericUpButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer4/HBoxContainer" unique_id=1800433619]
+layout_mode = 2
+texture_normal = ExtResource("3_xg7d5")
+
+[node name="GenericDownButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer4/HBoxContainer" unique_id=1636813743]
+layout_mode = 2
+texture_normal = ExtResource("2_pxqd5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HSplitContainer/PresetsBar" unique_id=106896842]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer" unique_id=1277683511]
 layout_mode = 2
 text = "Color Presets"
+horizontal_alignment = 1
 
-[node name="ColorPresetGrid" type="GridContainer" parent="MarginContainer/HBoxContainer/PresetsBar" unique_id=1437460047]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer" unique_id=800147718]
 layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="ColorPresetGrid" type="GridContainer" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer/ScrollContainer" unique_id=1437460047]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PresetsBar" unique_id=1614164259]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer" unique_id=1614164259]
 layout_mode = 2
+alignment = 1
 
-[node name="ColorAddButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer" unique_id=69852389]
+[node name="ColorAddButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer/HBoxContainer" unique_id=69852389]
 layout_mode = 2
 texture_normal = ExtResource("1_q68jb")
 
-[node name="ColorRemoveButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer" unique_id=1954658916]
+[node name="ColorRemoveButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer/HBoxContainer" unique_id=1954658916]
 layout_mode = 2
 texture_normal = ExtResource("2_xg7d5")
 
-[node name="ColorUpButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer" unique_id=1803873347]
+[node name="ColorUpButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer/HBoxContainer" unique_id=1803873347]
 layout_mode = 2
 texture_normal = ExtResource("3_xg7d5")
 
-[node name="ColorDownButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer" unique_id=1534627318]
+[node name="ColorDownButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer/HBoxContainer" unique_id=1534627318]
 layout_mode = 2
 texture_normal = ExtResource("2_pxqd5")
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/PresetsBar" unique_id=203602670]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HSplitContainer/PresetsBar" unique_id=834474272]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/PresetsBar" unique_id=1846619265]
+[node name="Label2" type="Label" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer2" unique_id=1846619265]
 layout_mode = 2
 text = "Speed Presets"
+horizontal_alignment = 1
 
-[node name="SpeedPresetGrid" type="GridContainer" parent="MarginContainer/HBoxContainer/PresetsBar" unique_id=80563312]
+[node name="ScrollContainer2" type="ScrollContainer" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer2" unique_id=919316235]
 layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="SpeedPresetGrid" type="GridContainer" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer2/ScrollContainer2" unique_id=80563312]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PresetsBar" unique_id=268977337]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer2" unique_id=268977337]
 layout_mode = 2
+alignment = 1
 
-[node name="SpeedAddButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer2" unique_id=1414035289]
+[node name="SpeedAddButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer2/HBoxContainer2" unique_id=1414035289]
 layout_mode = 2
 texture_normal = ExtResource("1_q68jb")
 
-[node name="SpeedRemoveButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer2" unique_id=818232999]
+[node name="SpeedRemoveButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer2/HBoxContainer2" unique_id=818232999]
 layout_mode = 2
 texture_normal = ExtResource("2_xg7d5")
 
-[node name="SpeedUpButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer2" unique_id=1418137253]
+[node name="SpeedUpButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer2/HBoxContainer2" unique_id=1418137253]
 layout_mode = 2
 texture_normal = ExtResource("3_xg7d5")
 
-[node name="SpeedDownButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer2" unique_id=1208349277]
+[node name="SpeedDownButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer2/HBoxContainer2" unique_id=1208349277]
 layout_mode = 2
 texture_normal = ExtResource("2_pxqd5")
 
-[node name="HSeparator2" type="HSeparator" parent="MarginContainer/HBoxContainer/PresetsBar" unique_id=599441322]
+[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/HSplitContainer/PresetsBar" unique_id=160940726]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="Label3" type="Label" parent="MarginContainer/HBoxContainer/PresetsBar" unique_id=5519049]
+[node name="Label3" type="Label" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer3" unique_id=5519049]
 layout_mode = 2
 text = "Delay Presets"
+horizontal_alignment = 1
 
-[node name="DelayPresetGrid" type="GridContainer" parent="MarginContainer/HBoxContainer/PresetsBar" unique_id=501848923]
+[node name="ScrollContainer3" type="ScrollContainer" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer3" unique_id=1964557799]
 layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="DelayPresetGrid" type="GridContainer" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer3/ScrollContainer3" unique_id=501848923]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 2
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/HBoxContainer/PresetsBar" unique_id=611181233]
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer3" unique_id=611181233]
 layout_mode = 2
+alignment = 1
 
-[node name="DelayAddButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer3" unique_id=984670072]
+[node name="DelayAddButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer3/HBoxContainer3" unique_id=984670072]
 layout_mode = 2
 texture_normal = ExtResource("1_q68jb")
 
-[node name="DelayRemoveButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer3" unique_id=553312389]
+[node name="DelayRemoveButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer3/HBoxContainer3" unique_id=553312389]
 layout_mode = 2
 texture_normal = ExtResource("2_xg7d5")
 
-[node name="DelayUpButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer3" unique_id=832066631]
+[node name="DelayUpButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer3/HBoxContainer3" unique_id=832066631]
 layout_mode = 2
 texture_normal = ExtResource("3_xg7d5")
 
-[node name="DelayDownButton" type="TextureButton" parent="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer3" unique_id=105064282]
+[node name="DelayDownButton" type="TextureButton" parent="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer3/HBoxContainer3" unique_id=105064282]
 layout_mode = 2
 texture_normal = ExtResource("2_pxqd5")
 
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer/ColorAddButton" to="MarginContainer/HBoxContainer/PresetsBar" method="_on_color_add_button_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer/ColorRemoveButton" to="MarginContainer/HBoxContainer/PresetsBar" method="_on_color_remove_button_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer/ColorUpButton" to="MarginContainer/HBoxContainer/PresetsBar" method="_on_color_up_button_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer/ColorDownButton" to="MarginContainer/HBoxContainer/PresetsBar" method="_on_color_down_button_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer2/SpeedAddButton" to="MarginContainer/HBoxContainer/PresetsBar" method="_on_speed_add_button_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer2/SpeedRemoveButton" to="MarginContainer/HBoxContainer/PresetsBar" method="_on_speed_remove_button_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer2/SpeedUpButton" to="MarginContainer/HBoxContainer/PresetsBar" method="_on_speed_up_button_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer2/SpeedDownButton" to="MarginContainer/HBoxContainer/PresetsBar" method="_on_speed_down_button_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer3/DelayAddButton" to="MarginContainer/HBoxContainer/PresetsBar" method="_on_delay_add_button_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer3/DelayRemoveButton" to="MarginContainer/HBoxContainer/PresetsBar" method="_on_delay_remove_button_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer3/DelayUpButton" to="MarginContainer/HBoxContainer/PresetsBar" method="_on_delay_up_button_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/PresetsBar/HBoxContainer3/DelayDownButton" to="MarginContainer/HBoxContainer/PresetsBar" method="_on_delay_down_button_pressed"]
+[connection signal="item_selected" from="MarginContainer/HSplitContainer/ConversationList/ConversationList" to="MarginContainer/HSplitContainer/ConversationList" method="_on_conversation_list_item_selected"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/ConversationList/HBoxContainer/ConversationAddButton" to="MarginContainer/HSplitContainer/ConversationList" method="_on_conversation_add_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/ConversationList/HBoxContainer/ConversationRemoveButton" to="MarginContainer/HSplitContainer/ConversationList" method="_on_conversation_remove_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/ConversationList/HBoxContainer/ConversationUpButton" to="MarginContainer/HSplitContainer/ConversationList" method="_on_conversation_up_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/ConversationList/HBoxContainer/ConversationDownButton" to="MarginContainer/HSplitContainer/ConversationList" method="_on_conversation_down_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/MainEditor/HBoxContainer2/DeleteButton" to="MarginContainer/HSplitContainer/MainEditor/HBoxContainer2/DeleteButton" method="_on_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer4/HBoxContainer/GenericAddButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_generic_add_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer4/HBoxContainer/GenericRemoveButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_generic_remove_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer4/HBoxContainer/GenericUpButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_generic_up_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer4/HBoxContainer/GenericDownButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_generic_down_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer/HBoxContainer/ColorAddButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_color_add_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer/HBoxContainer/ColorRemoveButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_color_remove_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer/HBoxContainer/ColorUpButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_color_up_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer/HBoxContainer/ColorDownButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_color_down_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer2/HBoxContainer2/SpeedAddButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_speed_add_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer2/HBoxContainer2/SpeedRemoveButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_speed_remove_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer2/HBoxContainer2/SpeedUpButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_speed_up_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer2/HBoxContainer2/SpeedDownButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_speed_down_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer3/HBoxContainer3/DelayAddButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_delay_add_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer3/HBoxContainer3/DelayRemoveButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_delay_remove_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer3/HBoxContainer3/DelayUpButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_delay_up_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer3/HBoxContainer3/DelayDownButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_delay_down_button_pressed"]

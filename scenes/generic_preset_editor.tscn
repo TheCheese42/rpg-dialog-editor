@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://mact2ttl3d1v"]
+
+[ext_resource type="Script" uid="uid://dcedxc41xc7wb" path="res://scripts/generic_preset_editor.gd" id="1_qhb3s"]
+
+[node name="GenericPresetEditor" type="CanvasLayer" unique_id=461616394]
+layer = 2
+script = ExtResource("1_qhb3s")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1254368148]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.39215687)
+
+[node name="CenterContainer" type="CenterContainer" parent="ColorRect" unique_id=1663769934]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ColorRect/CenterContainer" unique_id=394229338]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/CenterContainer/PanelContainer" unique_id=1532566312]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer" unique_id=615071572]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="GridContainer" type="GridContainer" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1749466316]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="Label" type="Label" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=1335097716]
+layout_mode = 2
+text = "Color:"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=164084772]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=1638775550]
+layout_mode = 2
+text = "Speed:"
+
+[node name="SpeedSpin" type="SpinBox" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=1823293233]
+layout_mode = 2
+max_value = 20000.0
+
+[node name="Label3" type="Label" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=706505335]
+layout_mode = 2
+text = "Wave Intensity:"
+
+[node name="WaveIntensitySpin" type="SpinBox" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=444041775]
+layout_mode = 2
+max_value = 200.0
+
+[node name="Label4" type="Label" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=1331772583]
+layout_mode = 2
+text = "Wave Speed:"
+
+[node name="WaveSpeedSpin" type="SpinBox" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=1103994752]
+layout_mode = 2
+max_value = 20000.0
+
+[node name="Label5" type="Label" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=55348490]
+layout_mode = 2
+text = "Shake Intensity:"
+
+[node name="ShakeIntensitySpin" type="SpinBox" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=1589750703]
+layout_mode = 2
+max_value = 200.0
+
+[node name="Label6" type="Label" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=219969332]
+layout_mode = 2
+text = "Shake Speed:"
+
+[node name="ShakeSpeedSpin" type="SpinBox" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=1026538337]
+layout_mode = 2
+max_value = 20000.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=902815837]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="CancelButton" type="Button" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=889542531]
+layout_mode = 2
+text = "Cancel"
+
+[node name="ConfirmButton" type="Button" parent="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1564575175]
+layout_mode = 2
+text = "Confirm"
+
+[connection signal="pressed" from="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="ColorRect/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ConfirmButton" to="." method="_on_confirm_button_pressed"]

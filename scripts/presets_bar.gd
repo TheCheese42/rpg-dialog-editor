@@ -1,41 +1,29 @@
-extends VBoxContainer
+extends VSplitContainer
 
-var _color_presets: Dictionary[String, Color] = {}
-var _color_preset_names: PackedStringArray = []
-var _speed_presets: Dictionary[String, int] = {}
-var _speed_preset_names: PackedStringArray = []
-var _delay_presets: Dictionary[String, int] = {}
-var _delay_preset_names: PackedStringArray = []
 var _selected_name: String = ""
+var _generic_preset_editor_scene: PackedScene = preload("res://scenes/generic_preset_editor.tscn")
 
-@onready var color_preset_grid: GridContainer = $ColorPresetGrid
-@onready var color_add_button: TextureButton = $HBoxContainer/ColorAddButton
-@onready var color_remove_button: TextureButton = $HBoxContainer/ColorRemoveButton
-@onready var color_up_button: TextureButton = $HBoxContainer/ColorUpButton
-@onready var color_down_button: TextureButton = $HBoxContainer/ColorDownButton
-@onready var speed_preset_grid: GridContainer = $SpeedPresetGrid
-@onready var speed_add_button: TextureButton = $HBoxContainer2/SpeedAddButton
-@onready var speed_remove_button: TextureButton = $HBoxContainer2/SpeedRemoveButton
-@onready var speed_up_button: TextureButton = $HBoxContainer2/SpeedUpButton
-@onready var speed_down_button: TextureButton = $HBoxContainer2/SpeedDownButton
-@onready var delay_preset_grid: GridContainer = $DelayPresetGrid
-@onready var delay_add_button: TextureButton = $HBoxContainer3/DelayAddButton
-@onready var delay_remove_button: TextureButton = $HBoxContainer3/DelayRemoveButton
-@onready var delay_up_button: TextureButton = $HBoxContainer3/DelayUpButton
-@onready var delay_down_button: TextureButton = $HBoxContainer3/DelayDownButton
+@onready var generic_preset_grid: GridContainer = $VBoxContainer4/ScrollContainer/GenericPresetGrid
+@onready var generic_remove_button: TextureButton = $VBoxContainer4/HBoxContainer/GenericRemoveButton
+@onready var generic_up_button: TextureButton = $VBoxContainer4/HBoxContainer/GenericUpButton
+@onready var generic_down_button: TextureButton = $VBoxContainer4/HBoxContainer/GenericDownButton
+@onready var color_preset_grid: GridContainer = $VBoxContainer/ScrollContainer/ColorPresetGrid
+@onready var color_remove_button: TextureButton = $VBoxContainer/HBoxContainer/ColorRemoveButton
+@onready var color_up_button: TextureButton = $VBoxContainer/HBoxContainer/ColorUpButton
+@onready var color_down_button: TextureButton = $VBoxContainer/HBoxContainer/ColorDownButton
+@onready var speed_preset_grid: GridContainer = $VBoxContainer2/ScrollContainer2/SpeedPresetGrid
+@onready var speed_remove_button: TextureButton = $VBoxContainer2/HBoxContainer2/SpeedRemoveButton
+@onready var speed_up_button: TextureButton = $VBoxContainer2/HBoxContainer2/SpeedUpButton
+@onready var speed_down_button: TextureButton = $VBoxContainer2/HBoxContainer2/SpeedDownButton
+@onready var delay_preset_grid: GridContainer = $VBoxContainer3/ScrollContainer3/DelayPresetGrid
+@onready var delay_remove_button: TextureButton = $VBoxContainer3/HBoxContainer3/DelayRemoveButton
+@onready var delay_up_button: TextureButton = $VBoxContainer3/HBoxContainer3/DelayUpButton
+@onready var delay_down_button: TextureButton = $VBoxContainer3/HBoxContainer3/DelayDownButton
 
 
 func _ready() -> void:
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)
-	color_remove_button.disabled = true
-	speed_remove_button.disabled = true
-	delay_remove_button.disabled = true
-	color_up_button.disabled = true
-	speed_up_button.disabled = true
-	delay_up_button.disabled = true
-	color_down_button.disabled = true
-	speed_down_button.disabled = true
-	delay_down_button.disabled = true
+	_on_focus_changed($"." as Control)  # Get rid of focus
 
 
 func load_presets(
@@ -43,33 +31,41 @@ func load_presets(
 	speed_presets: Dictionary[String, int],
 	delay_presets: Dictionary[String, int],
 ) -> void:
-	_color_presets = color_presets
-	_color_preset_names = color_presets.keys()
-	_speed_presets = speed_presets
-	_speed_preset_names = speed_presets.keys()
-	_delay_presets = delay_presets
-	_delay_preset_names = delay_presets.keys()
+	Globals.color_presets = color_presets
+	Globals.color_preset_names = color_presets.keys()
+	Globals.speed_presets = speed_presets
+	Globals.speed_preset_names = speed_presets.keys()
+	Globals.delay_presets = delay_presets
+	Globals.delay_preset_names = delay_presets.keys()
 	_rebuild_ui()
 
 
 func _on_focus_changed(control: Control) -> void:
 	if control in [
-		color_remove_button, speed_remove_button, delay_remove_button,
-		color_up_button, speed_up_button, delay_up_button,
-		color_down_button, speed_down_button, delay_down_button,
+		generic_remove_button, generic_up_button, generic_down_button,
+		color_remove_button, color_up_button, color_down_button,
+		speed_up_button, speed_up_button, speed_up_button,
+		delay_down_button, delay_down_button, delay_down_button,
 	]:
 		return
+	generic_remove_button.disabled = true
 	color_remove_button.disabled = true
 	speed_remove_button.disabled = true
 	delay_remove_button.disabled = true
+	generic_up_button.disabled = true
 	color_up_button.disabled = true
 	speed_up_button.disabled = true
 	delay_up_button.disabled = true
+	generic_down_button.disabled = true
 	color_down_button.disabled = true
 	speed_down_button.disabled = true
 	delay_down_button.disabled = true
 	if is_instance_of(control, LineEdit):
-		if control.get_parent() == color_preset_grid:
+		if control.get_parent() == generic_preset_grid:
+			generic_remove_button.disabled = false
+			generic_up_button.disabled = false
+			generic_down_button.disabled = false
+		elif control.get_parent() == color_preset_grid:
 			color_remove_button.disabled = false
 			color_up_button.disabled = false
 			color_down_button.disabled = false
@@ -103,61 +99,93 @@ func _update_value(
 	presets[name_] = new
 
 
+func _open_generic_preset_editor(preset: String) -> void:
+	var editor: GenericPresetEditor = _generic_preset_editor_scene.instantiate()
+	editor.load_preset(Globals.generic_presets[preset])
+	editor.preset_changed.connect(func(new: Dictionary) -> void:
+		Globals.generic_presets[preset] = new)
+	get_tree().root.add_child(editor)
+
+
 func _rebuild_ui() -> void:
 	for grid: GridContainer in [
-		color_preset_grid, speed_preset_grid, delay_preset_grid
+		color_preset_grid, speed_preset_grid,
+		delay_preset_grid, generic_preset_grid,
 	]:
 		for child: Control in grid.get_children():
 			child.queue_free()
 
-	for preset: String in _color_preset_names:
+	for preset: String in Globals.generic_preset_names:
+		var label := RememberingLineEdit.new()
+		label.custom_minimum_size = Vector2(120, 0)
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		label.text = preset
+		generic_preset_grid.add_child(label)
+		var button := Button.new()
+		button.pressed.connect(_open_generic_preset_editor.bind(preset))
+		label.remembering_text_changed.connect(
+			func(old: String, new: String) -> void:
+				_update_name(
+					old, new, Globals.generic_presets, Globals.generic_preset_names
+				)
+				button.pressed.disconnect(_open_generic_preset_editor)
+				button.pressed.connect(_open_generic_preset_editor.bind(new))
+		)
+		button.custom_minimum_size = Vector2(80, 0)
+		button.text = "Edit"
+		generic_preset_grid.add_child(button)
+
+	for preset: String in Globals.color_preset_names:
 		var label := RememberingLineEdit.new()
 		label.remembering_text_changed.connect(_update_name.bind(
-			_color_presets, _color_preset_names,
+			Globals.color_presets, Globals.color_preset_names,
 		))
 		label.custom_minimum_size = Vector2(120, 0)
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		label.text = preset
 		color_preset_grid.add_child(label)
 		var button := ColorPickerButton.new()
 		button.color_changed.connect(_update_value.bind(
-			_color_presets, preset,
+			Globals.color_presets, preset,
 		))
 		button.custom_minimum_size = Vector2(80, 0)
-		button.color = _color_presets[preset]
+		button.color = Globals.color_presets[preset]
 		color_preset_grid.add_child(button)
 
-	for preset: String in _speed_preset_names:
+	for preset: String in Globals.speed_preset_names:
 		var label := RememberingLineEdit.new()
 		label.remembering_text_changed.connect(_update_name.bind(
-			_speed_presets, _speed_preset_names,
+			Globals.speed_presets, Globals.speed_preset_names,
 		))
 		label.custom_minimum_size = Vector2(120, 0)
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		label.text = preset
 		speed_preset_grid.add_child(label)
 		var spin := SpinBox.new()
 		spin.value_changed.connect(_update_value.bind(
-			_speed_presets, preset,
+			Globals.speed_presets, preset,
 		))
 		spin.custom_minimum_size = Vector2(80, 0)
 		spin.max_value = 20000
-		spin.value = _speed_presets[preset]
+		spin.value = Globals.speed_presets[preset]
 		speed_preset_grid.add_child(spin)
 
-	for preset: String in _delay_preset_names:
+	for preset: String in Globals.delay_preset_names:
 		var label := RememberingLineEdit.new()
 		label.remembering_text_changed.connect(_update_name.bind(
-			_delay_presets, _delay_preset_names,
+			Globals.delay_presets, Globals.delay_preset_names,
 		))
 		label.custom_minimum_size = Vector2(120, 0)
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		label.text = preset
 		delay_preset_grid.add_child(label)
 		var spin := SpinBox.new()
 		spin.value_changed.connect(_update_value.bind(
-			_delay_presets, preset,
+			Globals.delay_presets, preset,
 		))
 		spin.custom_minimum_size = Vector2(80, 0)
 		spin.max_value = 20000
-		spin.value = _delay_presets[preset]
+		spin.value = Globals.delay_presets[preset]
 		delay_preset_grid.add_child(spin)
 
 
@@ -207,48 +235,77 @@ func _on_down_button_pressed(presets_names: PackedStringArray) -> void:
 
 
 func _on_color_add_button_pressed() -> void:
-	_on_add_button_pressed(_color_presets, _color_preset_names, Color.WHITE)
+	_on_add_button_pressed(
+		Globals.color_presets, Globals.color_preset_names, Color.WHITE
+	)
 
 
 func _on_color_remove_button_pressed() -> void:
-	_on_remove_button_pressed(_color_presets, _color_preset_names)
+	_on_remove_button_pressed(Globals.color_presets, Globals.color_preset_names)
 
 
 func _on_color_up_button_pressed() -> void:
-	_on_up_button_pressed(_color_preset_names)
+	_on_up_button_pressed(Globals.color_preset_names)
 
 
 func _on_color_down_button_pressed() -> void:
-	_on_down_button_pressed(_color_preset_names)
+	_on_down_button_pressed(Globals.color_preset_names)
 
 
 func _on_speed_add_button_pressed() -> void:
-	_on_add_button_pressed(_speed_presets, _speed_preset_names, 100)
+	_on_add_button_pressed(
+		Globals.speed_presets, Globals.speed_preset_names, 100
+	)
 
 
 func _on_speed_remove_button_pressed() -> void:
-	_on_remove_button_pressed(_speed_presets, _speed_preset_names)
+	_on_remove_button_pressed(Globals.speed_presets, Globals.speed_preset_names)
 
 
 func _on_speed_up_button_pressed() -> void:
-	_on_up_button_pressed(_speed_preset_names)
+	_on_up_button_pressed(Globals.speed_preset_names)
 
 
 func _on_speed_down_button_pressed() -> void:
-	_on_down_button_pressed(_speed_preset_names)
+	_on_down_button_pressed(Globals.speed_preset_names)
 
 
 func _on_delay_add_button_pressed() -> void:
-	_on_add_button_pressed(_delay_presets, _delay_preset_names, 1000)
+	_on_add_button_pressed(
+		Globals.delay_presets, Globals.delay_preset_names, 1000
+	)
 
 
 func _on_delay_remove_button_pressed() -> void:
-	_on_remove_button_pressed(_delay_presets, _delay_preset_names)
+	_on_remove_button_pressed(Globals.delay_presets, Globals.delay_preset_names)
 
 
 func _on_delay_up_button_pressed() -> void:
-	_on_up_button_pressed(_delay_preset_names)
+	_on_up_button_pressed(Globals.delay_preset_names)
 
 
 func _on_delay_down_button_pressed() -> void:
-	_on_down_button_pressed(_delay_preset_names)
+	_on_down_button_pressed(Globals.delay_preset_names)
+
+
+func _on_generic_add_button_pressed() -> void:
+	_on_add_button_pressed(
+		Globals.generic_presets,
+		Globals.generic_preset_names,
+		Globals.DEFAULT_GENERIC_PRESET,
+	)
+
+
+func _on_generic_remove_button_pressed() -> void:
+	if len(Globals.generic_presets) > 1:
+		_on_remove_button_pressed(
+			Globals.generic_presets, Globals.generic_preset_names
+		)
+
+
+func _on_generic_up_button_pressed() -> void:
+	_on_up_button_pressed(Globals.generic_preset_names)
+
+
+func _on_generic_down_button_pressed() -> void:
+	_on_down_button_pressed(Globals.generic_preset_names)
