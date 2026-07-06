@@ -24,19 +24,6 @@ var _generic_preset_editor_scene: PackedScene = preload("res://scenes/generic_pr
 func _ready() -> void:
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)
 	_on_focus_changed($"." as Control)  # Get rid of focus
-
-
-func load_presets(
-	color_presets: Dictionary[String, Color],
-	speed_presets: Dictionary[String, int],
-	delay_presets: Dictionary[String, int],
-) -> void:
-	Globals.color_presets = color_presets
-	Globals.color_preset_names = color_presets.keys()
-	Globals.speed_presets = speed_presets
-	Globals.speed_preset_names = speed_presets.keys()
-	Globals.delay_presets = delay_presets
-	Globals.delay_preset_names = delay_presets.keys()
 	_rebuild_ui()
 
 
@@ -294,6 +281,7 @@ func _on_generic_add_button_pressed() -> void:
 		Globals.generic_preset_names,
 		Globals.DEFAULT_GENERIC_PRESET,
 	)
+	get_tree().call_group("main_editor", "update_generic_presets")
 
 
 func _on_generic_remove_button_pressed() -> void:
@@ -301,11 +289,14 @@ func _on_generic_remove_button_pressed() -> void:
 		_on_remove_button_pressed(
 			Globals.generic_presets, Globals.generic_preset_names
 		)
+	get_tree().call_group("main_editor", "update_generic_presets")
 
 
 func _on_generic_up_button_pressed() -> void:
 	_on_up_button_pressed(Globals.generic_preset_names)
+	get_tree().call_group("main_editor", "update_generic_presets")
 
 
 func _on_generic_down_button_pressed() -> void:
 	_on_down_button_pressed(Globals.generic_preset_names)
+	get_tree().call_group("main_editor", "update_generic_presets")

@@ -8,31 +8,38 @@ extends VBoxContainer
 
 func load_conversations(conversations: PackedStringArray) -> void:
 	Globals.conversations = conversations
-	_rebuild_ui()
+	rebuild_ui()
 
 
-func _rebuild_ui() -> void:
+func rebuild_ui() -> void:
 	conversation_list.clear()
-	for conversation: String in Globals.conversations:
-		conversation_list.add_item(conversation)
+	for conversation: DialogFile.Conversation in Globals.conversations:
+		conversation_list.add_item(str(conversation.id))
 
 
 func _on_conversation_add_button_pressed() -> void:
-	var new_name: String = "New Preset"
+	var conversation := DialogFile.Conversation.new()
+	var new_uid: String = "New Conversation"
 	var i: int = 1
-	while new_name in Globals.conversations:
-		new_name = "New Preset ({0})".format([i])
+	while true:
+		if conversation.id.set_id(new_uid):
+			break
+		new_uid = "New Conversation ({0})".format([i])
 		i += 1
-	Globals.conversations.append(new_name)
-	_rebuild_ui()
+	Globals.conversations.append(conversation)
+	rebuild_ui()
 	conversation_list.select(len(Globals.conversations) - 1)
+	get_tree().call_group(
+		"main_editor", "load_conversation", Globals.conversations[
+			len(Globals.conversations) - 1])
 
 
 func _on_conversation_remove_button_pressed() -> void:
 	var selected := conversation_list.get_selected_items()
 	if selected:
+		Globals.conversations[selected[0]].unregister()
 		Globals.conversations.remove_at(selected[0])
-	_rebuild_ui()
+	rebuild_ui()
 	get_tree().call_group("main_editor", "clear")
 
 
@@ -41,12 +48,12 @@ func _on_conversation_up_button_pressed() -> void:
 	if selected:
 		if selected[0] == 0:
 			return
-		var swap: String = Globals.conversations[selected[0]]
+		var swap: DialogFile.Conversation = Globals.conversations[selected[0]]
 		Globals.conversations[selected[0]] = (
 			Globals.conversations[selected[0] - 1]
 		)
 		Globals.conversations[selected[0] - 1] = swap
-		_rebuild_ui()
+		rebuild_ui()
 		conversation_list.select(selected[0] - 1)
 
 
@@ -55,12 +62,12 @@ func _on_conversation_down_button_pressed() -> void:
 	if selected:
 		if selected[0] == len(Globals.conversations) - 1:
 			return
-		var swap: String = Globals.conversations[selected[0]]
+		var swap: DialogFile.Conversation = Globals.conversations[selected[0]]
 		Globals.conversations[selected[0]] = (
 			Globals.conversations[selected[0] + 1]
 		)
 		Globals.conversations[selected[0] + 1] = swap
-		_rebuild_ui()
+		rebuild_ui()
 		conversation_list.select(selected[0] + 1)
 
 

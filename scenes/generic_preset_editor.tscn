@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://mact2ttl3d1v"]
 
 [ext_resource type="Script" uid="uid://dcedxc41xc7wb" path="res://scripts/generic_preset_editor.gd" id="1_qhb3s"]
+[ext_resource type="Theme" uid="uid://hdtefxg65t2c" path="res://theme/content_theme.tres" id="2_8g6qs"]
 
 [node name="GenericPresetEditor" type="CanvasLayer" unique_id=461616394]
 layer = 2
@@ -12,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_8g6qs")
 color = Color(0, 0, 0, 0.39215687)
 
 [node name="CenterContainer" type="CenterContainer" parent="ColorRect" unique_id=1663769934]

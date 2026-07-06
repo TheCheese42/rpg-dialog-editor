@@ -14,7 +14,8 @@ extends Resource
 	@abstract func _to_string() -> String
 
 	func unregister() -> void:
-		pass
+		for content: ConversationContent in (self.get("contents") or []):
+			content.unregister()
 
 
 class Conversation extends DialogComponent:
@@ -27,6 +28,7 @@ class Conversation extends DialogComponent:
 		return str(id)
 
 	func unregister() -> void:
+		super.unregister()
 		id.unregister()
 
 
@@ -37,7 +39,7 @@ class Conversation extends DialogComponent:
 class Speaker extends ConversationContent:
 	@export var name: String = ""
 	@export var contents: Array[ConversationContent]
-	
+
 	func _to_string() -> String:
 		return "{0}:".format([name])
 
@@ -45,12 +47,13 @@ class Speaker extends ConversationContent:
 class Page extends ConversationContent:
 	@export var id: DialogUID = DialogUID.new()
 	@export var text: String = ""
-	@export var choices: Array[Choice]
+	@export var contents: Array[Choice]
 
 	func _to_string() -> String:
-		return text
+		return "[{0}] {1}".format([id, text])
 
 	func unregister() -> void:
+		super.unregister()
 		id.unregister()
 
 

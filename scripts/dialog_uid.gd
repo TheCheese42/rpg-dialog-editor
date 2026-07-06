@@ -16,6 +16,14 @@ func _to_string() -> String:
 	return _uid
 
 
+func set_id(uid: String) -> bool:
+	## Returns whether setting was successful.
+	if _check_valid(uid):
+		_uid = uid
+		return true
+	return false
+
+
 func unregister() -> void:
 	Globals.uid_objects.erase(self)
 

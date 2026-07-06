@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://dj3pwjxoivq5k"]
+
+[sub_resource type="SystemFont" id="SystemFont_aa8l6"]
+font_names = PackedStringArray("Noto Sans")
+
+[resource]
+font = SubResource("SystemFont_aa8l6")

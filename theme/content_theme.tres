@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://hdtefxg65t2c"]
+
+[sub_resource type="SystemFont" id="SystemFont_8g6du"]
+font_names = PackedStringArray("Noto Sans")
+
+[resource]
+default_font = SubResource("SystemFont_8g6du")

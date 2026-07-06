@@ -9,7 +9,7 @@ var DEFAULT_GENERIC_PRESET: Dictionary = {
 	"shake_speed": 0,
 }
 
-var conversations: PackedStringArray = []
+var conversations: Array[DialogFile.Conversation] = []
 var generic_presets: Dictionary[String, Dictionary] = {
 	"Default": DEFAULT_GENERIC_PRESET
 }
