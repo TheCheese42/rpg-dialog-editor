@@ -1,0 +1,142 @@
+[gd_scene format=3 uid="uid://c4m5h6rgr0rn6"]
+
+[ext_resource type="Theme" uid="uid://hdtefxg65t2c" path="res://theme/content_theme.tres" id="1_4hffw"]
+[ext_resource type="Script" uid="uid://fsp7vlv7bge3" path="res://scripts/page_editor.gd" id="1_xdxl0"]
+[ext_resource type="Texture2D" uid="uid://cvvt8qjmybjtg" path="res://assets/icons/play.svg" id="3_e8hy1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ckjq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e8hy1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_827in"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_83u33"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0pyfl"]
+
+[node name="PageEditor" type="CanvasLayer" unique_id=1188413264]
+layer = 2
+script = ExtResource("1_xdxl0")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1030340397]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_4hffw")
+color = Color(0, 0, 0, 0.39215687)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect" unique_id=933653524]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.2
+anchor_right = 0.8
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="ColorRect/HBoxContainer" unique_id=1664318226]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/HBoxContainer/PanelContainer" unique_id=321524822]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer" unique_id=1273825492]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=949684936]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1364193463]
+layout_mode = 2
+text = "Preset:"
+
+[node name="OptionButton" type="OptionButton" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=348916815]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextEdit" type="TextEdit" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1629260730]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 12
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1091017526]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=99357488]
+layout_mode = 2
+text = "Interjection:"
+
+[node name="InterjectionSpeakerEdit" type="LineEdit" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=559726374]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+placeholder_text = "Speaker"
+
+[node name="InterjectionTextEdit" type="LineEdit" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=582780714]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+placeholder_text = "Text"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/HBoxContainer" unique_id=565638066]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="ColorRect/HBoxContainer/VBoxContainer" unique_id=1058462080]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/HBoxContainer/VBoxContainer/PanelContainer" unique_id=649964619]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PreviewHFlow" type="HFlowContainer" parent="ColorRect/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer" unique_id=673162079]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer" unique_id=2025067149]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Button" type="Button" parent="ColorRect/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer" unique_id=113297332]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_7ckjq")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_e8hy1")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_827in")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_83u33")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0pyfl")
+text = "Start Preview"
+icon = ExtResource("3_e8hy1")
+
+[node name="PanelContainer2" type="PanelContainer" parent="ColorRect/HBoxContainer/VBoxContainer" unique_id=755238892]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ColorRect/HBoxContainer/VBoxContainer/PanelContainer2" unique_id=2057000504]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[center]Reference[/center][font_size=12]
+[ul]
+Color: <c preset> <c 8-digit hex>
+Speed: <s preset> <s n>
+Delay: <d preset> <d n>
+Set cursor: <cur n>
+Backspace: <b n>
+Wave: <wave n_intensity n_speed>
+Shake: <shake n_intensity n_speed>
+Variable: {path}
+Placeholder: {n}[/ul][/font_size]"
