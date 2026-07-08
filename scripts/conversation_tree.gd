@@ -10,6 +10,7 @@ signal conversation_changed(conversation: DialogFile.Conversation)
 @onready var script_button: DragButton = $"../HBoxContainer2/ScriptButton"
 
 var _conversation: DialogFile.Conversation
+var _page_editor_scene: PackedScene = preload("res://scenes/page_editor.tscn")
 
 
 func _ready() -> void:
@@ -73,6 +74,8 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 		component = data
 		item = get_root().create_child()
 		apply_component_to_item(item, component)
+		if is_instance_of(component, DialogFile.Page):
+			item.add_button(0, preload("res://assets/icons/edit.svg"))
 		item.set_editable(0, true)
 	else:
 		item = data
@@ -103,6 +106,7 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 		0:  # Last child
 			item.get_parent().remove_child(item)
 			other_item.add_child(item)
+	Globals.set_saved(false)
 
 	# Update model data
 	var new_parent: TreeItem = item.get_parent()
@@ -137,6 +141,7 @@ func _on_multi_selected(item: TreeItem, _column: int, selected: bool) -> void:
 
 func _on_item_edited() -> void:
 	_update_children_recursively(get_root())
+	Globals.set_saved(false)
 
 
 func _on_empty_clicked(_click_position: Vector2, _mouse_button_index: int) -> void:
@@ -168,6 +173,7 @@ func free_selected() -> void:
 		var component: DialogFile.DialogComponent = selected.get_metadata(0)
 		component.unregister()
 		selected.free()
+		Globals.set_saved(false)
 
 
 func apply_component_to_item(
@@ -199,6 +205,8 @@ func _populate_tree(
 		item = create_item()
 	item.set_editable(0, true)
 	apply_component_to_item(item, component)
+	if is_instance_of(component, DialogFile.Page):
+		item.add_button(0, preload("res://assets/icons/edit.svg"))
 	if component.get("contents"):
 		var contents: Array = component.get("contents")
 		for content: DialogFile.DialogComponent in contents:
@@ -227,3 +235,58 @@ func _update_children_recursively(
 			elif is_instance_of(component, DialogFile.Script_):
 				(component as DialogFile.Script_).script_id = child.get_text(0)
 		child.set_text(0, str(component))
+
+
+func _on_button_clicked(
+	item: TreeItem, _column: int, _id: int, mouse_button_index: int,
+) -> void:
+	if mouse_button_index == MOUSE_BUTTON_LEFT:
+		var page: DialogFile.Page = item.get_metadata(0)
+		var editor: PageEditor = _page_editor_scene.instantiate()
+		add_child(editor)
+		editor.load_text(page.text)
+		editor.text_changed.connect(_update_page_text.bind(item, page))
+
+
+func _update_page_text(
+	text: String, item: TreeItem, page: DialogFile.Page,
+) -> void:
+	page.text = text
+	item.set_text(0, str(page))
+	Globals.set_saved(false)
+
+
+func _input(_event: InputEvent) -> void:
+	var component: DialogFile.DialogComponent = null
+	if Input.is_action_just_pressed("delete"):
+		free_selected()
+	elif Input.is_action_just_pressed("edit_page"):
+		if get_selected():
+			var item: TreeItem = get_selected()
+			var meta_component: DialogFile.DialogComponent = (
+				item.get_metadata(0))
+			if is_instance_of(meta_component, DialogFile.Page):
+				_on_button_clicked(item, 0, -1, MOUSE_BUTTON_LEFT)
+	elif Input.is_action_just_pressed("add_speaker"):
+		component = speaker_button.component.duplicate(true)
+	elif Input.is_action_just_pressed("add_page"):
+		component = page_button.component.duplicate(true)
+	elif Input.is_action_just_pressed("add_choice"):
+		component = choice_button.component.duplicate(true)
+	elif Input.is_action_just_pressed("add_goto"):
+		component = goto_button.component.duplicate(true)
+	elif Input.is_action_just_pressed("add_script"):
+		component = script_button.component.duplicate(true)
+	if component:
+		var selected_parent: TreeItem = get_selected()
+		if selected_parent == null:
+			selected_parent = get_root()
+		var item: TreeItem = selected_parent.create_child()
+		apply_component_to_item(item, component)
+		if is_instance_of(component, DialogFile.Page):
+			item.add_button(0, preload("res://assets/icons/edit.svg"))
+		item.set_editable(0, true)
+		deselect_all()
+		item.select(0)
+		_on_multi_selected(item, 0, true)
+		Globals.set_saved(false)

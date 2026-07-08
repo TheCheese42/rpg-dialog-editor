@@ -35,6 +35,7 @@ func load_conversation(conversation: DialogFile.Conversation) -> void:
 	) if _conversation.preset in Globals.generic_preset_names else 0
 	tree.load_conversation(_conversation)
 	update_generic_presets()
+	tree.grab_focus(true)
 
 
 func clear() -> void:
@@ -46,6 +47,8 @@ func clear() -> void:
 
 
 func update_generic_presets() -> void:
+	if not _conversation:
+		return
 	preset_option.clear()
 	for preset: String in Globals.generic_preset_names:
 		preset_option.add_item(preset)
@@ -61,6 +64,7 @@ func _on_id_edit_text_submitted(new_text: String) -> void:
 		id_edit.text = str(_conversation.id)
 	else:
 		get_tree().call_group("conversations_list", "rebuild_ui")
+		Globals.set_saved(false)
 
 
 func _on_id_edit_focus_exited() -> void:
@@ -69,3 +73,4 @@ func _on_id_edit_focus_exited() -> void:
 
 func _on_preset_option_item_selected(index: int) -> void:
 	_conversation.preset = Globals.generic_preset_names[index]
+	Globals.set_saved(false)

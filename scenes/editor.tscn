@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://4bw8v0ghhy45" path="res://scripts/presets_bar.gd" id="1_xg7d5"]
 [ext_resource type="Texture2D" uid="uid://461axgs7yb4j" path="res://assets/icons/chevron-down.svg" id="2_pxqd5"]
 [ext_resource type="LabelSettings" uid="uid://b0kx0s3niec1y" path="res://theme/header_label.tres" id="2_q8l03"]
+[ext_resource type="Script" uid="uid://cuxw2qwrhex43" path="res://scripts/editor.gd" id="2_wyx26"]
 [ext_resource type="Texture2D" uid="uid://djgncvjomwy28" path="res://assets/icons/minus.svg" id="2_xg7d5"]
 [ext_resource type="Texture2D" uid="uid://6u7pclq2qaxl" path="res://assets/icons/chevron-up.svg" id="3_xg7d5"]
 [ext_resource type="Script" uid="uid://nl8pupqgnqqh" path="res://scripts/main_editor.gd" id="6_5lcyj"]
@@ -18,8 +19,47 @@
 [ext_resource type="Texture2D" uid="uid://d03l1hqeyddyu" path="res://assets/icons/arrow-right-circle.svg" id="12_5tdu1"]
 [ext_resource type="Texture2D" uid="uid://b6uxfj2detjjx" path="res://assets/icons/code.svg" id="13_q8l03"]
 [ext_resource type="Script" uid="uid://b048x7kuipf6n" path="res://scripts/delete_button.gd" id="15_5tdu1"]
+[ext_resource type="Texture2D" uid="uid://cxo20w3mfdc77" path="res://assets/icons/file.svg" id="19_8g6du"]
+[ext_resource type="Texture2D" uid="uid://o8wydvgn66hb" path="res://assets/icons/save.svg" id="20_k1sck"]
+[ext_resource type="Texture2D" uid="uid://bhs5hwk1018yq" path="res://assets/icons/x.svg" id="21_wyx26"]
+[ext_resource type="Texture2D" uid="uid://cme0ovf6bmgqq" path="res://assets/icons/globe.svg" id="23_4jiep"]
 
-[node name="Editor" type="Control" unique_id=722688059]
+[sub_resource type="InputEventKey" id="InputEventKey_wyx26"]
+device = -1
+shift_pressed = true
+ctrl_pressed = true
+keycode = 81
+
+[sub_resource type="Shortcut" id="Shortcut_wyx26"]
+events = [SubResource("InputEventKey_wyx26")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_k1sck"]
+device = -1
+shift_pressed = true
+ctrl_pressed = true
+keycode = 79
+
+[sub_resource type="Shortcut" id="Shortcut_k1sck"]
+events = [SubResource("InputEventKey_k1sck")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_4jiep"]
+device = -1
+ctrl_pressed = true
+keycode = 83
+
+[sub_resource type="Shortcut" id="Shortcut_4jiep"]
+events = [SubResource("InputEventKey_4jiep")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_fce0a"]
+device = -1
+shift_pressed = true
+ctrl_pressed = true
+keycode = 83
+
+[sub_resource type="Shortcut" id="Shortcut_fce0a"]
+events = [SubResource("InputEventKey_fce0a")]
+
+[node name="Editor" type="Control" unique_id=722688059 groups=["editor"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,6 +67,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("10_8g6du")
+script = ExtResource("2_wyx26")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=293808962]
 layout_mode = 1
@@ -36,7 +77,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
+theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
@@ -52,15 +93,27 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 script = ExtResource("1_eqbpn")
 
+[node name="Control" type="Control" parent="MarginContainer/HSplitContainer/ConversationList" unique_id=2063973781]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+
 [node name="Label" type="Label" parent="MarginContainer/HSplitContainer/ConversationList" unique_id=107578414]
 layout_mode = 2
 text = "Conversations"
 label_settings = ExtResource("2_q8l03")
 horizontal_alignment = 1
 
+[node name="Control2" type="Control" parent="MarginContainer/HSplitContainer/ConversationList" unique_id=925866086]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
 [node name="ConversationList" type="ItemList" parent="MarginContainer/HSplitContainer/ConversationList" unique_id=931758416]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="Control3" type="Control" parent="MarginContainer/HSplitContainer/ConversationList" unique_id=466353588]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HSplitContainer/ConversationList" unique_id=1106022468]
 layout_mode = 2
@@ -175,7 +228,7 @@ text = "Delete"
 icon = ExtResource("9_o435n")
 script = ExtResource("15_5tdu1")
 
-[node name="PresetsBar" type="VSplitContainer" parent="MarginContainer/HSplitContainer" unique_id=1235648016]
+[node name="PresetsBar" type="VSplitContainer" parent="MarginContainer/HSplitContainer" unique_id=1235648016 groups=["presets_bar"]]
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 size_flags_vertical = 3
@@ -346,6 +399,44 @@ texture_normal = ExtResource("3_xg7d5")
 layout_mode = 2
 texture_normal = ExtResource("2_pxqd5")
 
+[node name="MarginContainer2" type="MarginContainer" parent="." unique_id=193308845]
+layout_mode = 1
+offset_right = 409.0
+offset_bottom = 35.0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2" unique_id=2146412698]
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="MarginContainer2/HBoxContainer" unique_id=127410468]
+layout_mode = 2
+shortcut = SubResource("Shortcut_wyx26")
+text = "Close"
+icon = ExtResource("21_wyx26")
+
+[node name="OpenButton" type="Button" parent="MarginContainer2/HBoxContainer" unique_id=1977824078]
+layout_mode = 2
+shortcut = SubResource("Shortcut_k1sck")
+text = "Open..."
+icon = ExtResource("19_8g6du")
+
+[node name="SaveButton" type="Button" parent="MarginContainer2/HBoxContainer" unique_id=2035294920]
+layout_mode = 2
+shortcut = SubResource("Shortcut_4jiep")
+text = "Save"
+icon = ExtResource("20_k1sck")
+
+[node name="SaveAsButton" type="Button" parent="MarginContainer2/HBoxContainer" unique_id=720673812]
+layout_mode = 2
+shortcut = SubResource("Shortcut_fce0a")
+text = "Save as..."
+
+[node name="TranslateButton" type="Button" parent="MarginContainer2/HBoxContainer" unique_id=2006840388]
+layout_mode = 2
+text = "Translate"
+icon = ExtResource("23_4jiep")
+
 [connection signal="item_selected" from="MarginContainer/HSplitContainer/ConversationList/ConversationList" to="MarginContainer/HSplitContainer/ConversationList" method="_on_conversation_list_item_selected"]
 [connection signal="pressed" from="MarginContainer/HSplitContainer/ConversationList/HBoxContainer/ConversationAddButton" to="MarginContainer/HSplitContainer/ConversationList" method="_on_conversation_add_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HSplitContainer/ConversationList/HBoxContainer/ConversationRemoveButton" to="MarginContainer/HSplitContainer/ConversationList" method="_on_conversation_remove_button_pressed"]
@@ -354,6 +445,7 @@ texture_normal = ExtResource("2_pxqd5")
 [connection signal="focus_exited" from="MarginContainer/HSplitContainer/MainEditor/HBoxContainer/IDEdit" to="MarginContainer/HSplitContainer/MainEditor" method="_on_id_edit_focus_exited"]
 [connection signal="text_submitted" from="MarginContainer/HSplitContainer/MainEditor/HBoxContainer/IDEdit" to="MarginContainer/HSplitContainer/MainEditor" method="_on_id_edit_text_submitted"]
 [connection signal="item_selected" from="MarginContainer/HSplitContainer/MainEditor/HBoxContainer/PresetOption" to="MarginContainer/HSplitContainer/MainEditor" method="_on_preset_option_item_selected"]
+[connection signal="button_clicked" from="MarginContainer/HSplitContainer/MainEditor/Tree" to="MarginContainer/HSplitContainer/MainEditor/Tree" method="_on_button_clicked"]
 [connection signal="empty_clicked" from="MarginContainer/HSplitContainer/MainEditor/Tree" to="MarginContainer/HSplitContainer/MainEditor/Tree" method="_on_empty_clicked"]
 [connection signal="item_edited" from="MarginContainer/HSplitContainer/MainEditor/Tree" to="MarginContainer/HSplitContainer/MainEditor/Tree" method="_on_item_edited"]
 [connection signal="multi_selected" from="MarginContainer/HSplitContainer/MainEditor/Tree" to="MarginContainer/HSplitContainer/MainEditor/Tree" method="_on_multi_selected"]
@@ -374,3 +466,7 @@ texture_normal = ExtResource("2_pxqd5")
 [connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer3/HBoxContainer3/DelayRemoveButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_delay_remove_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer3/HBoxContainer3/DelayUpButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_delay_up_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HSplitContainer/PresetsBar/VBoxContainer3/HBoxContainer3/DelayDownButton" to="MarginContainer/HSplitContainer/PresetsBar" method="_on_delay_down_button_pressed"]
+[connection signal="pressed" from="MarginContainer2/HBoxContainer/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="pressed" from="MarginContainer2/HBoxContainer/OpenButton" to="." method="_on_open_button_pressed"]
+[connection signal="pressed" from="MarginContainer2/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="MarginContainer2/HBoxContainer/SaveAsButton" to="." method="_on_save_as_button_pressed"]

@@ -6,9 +6,10 @@ extends VBoxContainer
 @onready var conversation_down_button: TextureButton = $HBoxContainer/ConversationDownButton
 
 
-func load_conversations(conversations: PackedStringArray) -> void:
-	Globals.conversations = conversations
-	rebuild_ui()
+func _input(_event: InputEvent) -> void:
+	if Input.is_action_just_pressed("delete"):
+		if conversation_list.has_focus():
+			_on_conversation_remove_button_pressed()
 
 
 func rebuild_ui() -> void:
@@ -32,6 +33,7 @@ func _on_conversation_add_button_pressed() -> void:
 	get_tree().call_group(
 		"main_editor", "load_conversation", Globals.conversations[
 			len(Globals.conversations) - 1])
+	Globals.set_saved(false)
 
 
 func _on_conversation_remove_button_pressed() -> void:
@@ -39,8 +41,9 @@ func _on_conversation_remove_button_pressed() -> void:
 	if selected:
 		Globals.conversations[selected[0]].unregister()
 		Globals.conversations.remove_at(selected[0])
-	rebuild_ui()
-	get_tree().call_group("main_editor", "clear")
+		rebuild_ui()
+		get_tree().call_group("main_editor", "clear")
+		Globals.set_saved(false)
 
 
 func _on_conversation_up_button_pressed() -> void:
@@ -55,6 +58,7 @@ func _on_conversation_up_button_pressed() -> void:
 		Globals.conversations[selected[0] - 1] = swap
 		rebuild_ui()
 		conversation_list.select(selected[0] - 1)
+		Globals.set_saved(false)
 
 
 func _on_conversation_down_button_pressed() -> void:
@@ -69,6 +73,7 @@ func _on_conversation_down_button_pressed() -> void:
 		Globals.conversations[selected[0] + 1] = swap
 		rebuild_ui()
 		conversation_list.select(selected[0] + 1)
+		Globals.set_saved(false)
 
 
 func _on_conversation_list_item_selected(i: int) -> void:

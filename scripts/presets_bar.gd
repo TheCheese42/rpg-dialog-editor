@@ -24,7 +24,7 @@ var _generic_preset_editor_scene: PackedScene = preload("res://scenes/generic_pr
 func _ready() -> void:
 	get_viewport().gui_focus_changed.connect(_on_focus_changed)
 	_on_focus_changed($"." as Control)  # Get rid of focus
-	_rebuild_ui()
+	rebuild_ui()
 
 
 func _on_focus_changed(control: Control) -> void:
@@ -76,6 +76,7 @@ func _update_name(
 	preset_names[preset_names.find(old)] = new
 	presets[new] = presets[old]
 	presets.erase(old)
+	Globals.set_saved(false)
 
 
 func _update_value(
@@ -84,17 +85,19 @@ func _update_value(
 	name_: String,
 ) -> void:
 	presets[name_] = new
+	Globals.set_saved(false)
 
 
 func _open_generic_preset_editor(preset: String) -> void:
 	var editor: GenericPresetEditor = _generic_preset_editor_scene.instantiate()
 	editor.load_preset(Globals.generic_presets[preset])
 	editor.preset_changed.connect(func(new: Dictionary) -> void:
-		Globals.generic_presets[preset] = new)
+		Globals.generic_presets[preset] = new
+		Globals.set_saved(false))
 	get_tree().root.add_child(editor)
 
 
-func _rebuild_ui() -> void:
+func rebuild_ui() -> void:
 	for grid: GridContainer in [
 		color_preset_grid, speed_preset_grid,
 		delay_preset_grid, generic_preset_grid,
@@ -188,7 +191,8 @@ func _on_add_button_pressed(
 		i += 1
 	preset_names.append(new_name)
 	presets[new_name] = default
-	_rebuild_ui()
+	rebuild_ui()
+	Globals.set_saved(false)
 
 
 func _on_remove_button_pressed(
@@ -198,7 +202,8 @@ func _on_remove_button_pressed(
 	presets.erase(_selected_name)
 	presets_names.erase(_selected_name)
 	_on_focus_changed($"." as Control)  # Get rid of focus
-	_rebuild_ui()
+	rebuild_ui()
+	Globals.set_saved(false)
 
 
 func _on_up_button_pressed(presets_names: PackedStringArray) -> void:
@@ -208,7 +213,8 @@ func _on_up_button_pressed(presets_names: PackedStringArray) -> void:
 		return
 	presets_names[idx] = presets_names[idx - 1]
 	presets_names[idx - 1] = swap
-	_rebuild_ui()
+	rebuild_ui()
+	Globals.set_saved(false)
 
 
 func _on_down_button_pressed(presets_names: PackedStringArray) -> void:
@@ -218,7 +224,8 @@ func _on_down_button_pressed(presets_names: PackedStringArray) -> void:
 		return
 	presets_names[idx] = presets_names[idx + 1]
 	presets_names[idx + 1] = swap
-	_rebuild_ui()
+	rebuild_ui()
+	Globals.set_saved(false)
 
 
 func _on_color_add_button_pressed() -> void:
