@@ -16,6 +16,9 @@ signal confirmed(
 
 func _ready() -> void:
 	text_edit.grab_focus()
+	await get_tree().create_timer(0.0).timeout
+	# Delete new line inserted by ctrl+space shortcut
+	text_edit.text = text_edit.text.rstrip(" \n")
 
 
 func _input(_event: InputEvent) -> void:

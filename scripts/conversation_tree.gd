@@ -250,7 +250,7 @@ func _on_button_clicked(
 	if mouse_button_index == MOUSE_BUTTON_LEFT:
 		var page: DialogFile.Page = item.get_metadata(0)
 		var editor: PageEditor = _page_editor_scene.instantiate()
-		add_child(editor)
+		get_tree().root.find_child("Popups", true, false).add_child(editor)
 		editor.load_text(
 			page.text,
 			page.interjection.name,
@@ -277,6 +277,9 @@ func _update_page_text(
 
 
 func _input(_event: InputEvent) -> void:
+	if get_tree().root.find_child("Popups", true, false).get_child_count():
+		# Popup is open, don't react to shortcuts
+		return
 	var component: DialogFile.DialogComponent = null
 	if Input.is_action_just_pressed("delete"):
 		free_selected()

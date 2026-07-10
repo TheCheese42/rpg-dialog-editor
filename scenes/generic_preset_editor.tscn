@@ -3,6 +3,13 @@
 [ext_resource type="Script" uid="uid://dcedxc41xc7wb" path="res://scripts/generic_preset_editor.gd" id="1_qhb3s"]
 [ext_resource type="Theme" uid="uid://hdtefxg65t2c" path="res://theme/content_theme.tres" id="2_8g6qs"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e8hy1"]
+bg_color = Color(0.3529412, 0.3529412, 0.3529412, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [node name="GenericPresetEditor" type="CanvasLayer" unique_id=461616394]
 layer = 2
 script = ExtResource("1_qhb3s")
@@ -26,6 +33,7 @@ grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="ColorRect/CenterContainer" unique_id=394229338]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_e8hy1")
 
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect/CenterContainer/PanelContainer" unique_id=1532566312]
 layout_mode = 2

@@ -20,7 +20,7 @@ extends Resource
 	func unregister() -> void:
 		var contents: Variant = self.get("contents")
 		if contents is Array:
-			for content: ConversationContent in contents:
+			for content: DialogComponent in contents:
 				content.unregister()
 
 	static func _serialize_contents(contents: Array) -> Array[Dictionary]:
@@ -54,7 +54,7 @@ extends Resource
 
 
 class Conversation extends DialogComponent:
-	@export var original_hash: String = ""
+	@export var original_hash: int = 0
 	@export var id: DialogUID = DialogUID.new()
 	@export var preset: String = Globals.generic_preset_names[0]
 	@export var contents: Array = []

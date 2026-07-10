@@ -8,6 +8,12 @@ extends CanvasLayer
 @onready var invalid_label: Label = $ColorRect/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InvalidLabel
 
 
+func _ready() -> void:
+	locale_edit.text = Globals.locale
+	path_edit.text = Globals.relative_path_to_original
+	_on_path_edit_text_changed(path_edit.text)
+
+
 func _on_cancel_button_pressed() -> void:
 	queue_free()
 
@@ -16,6 +22,7 @@ func _on_confirm_button_pressed() -> void:
 	Globals.locale = locale_edit.text
 	Globals.relative_path_to_original = path_edit.text
 	Globals.set_saved(false)
+	Globals.refresh_language()
 	queue_free()
 
 
@@ -24,7 +31,7 @@ func _on_path_edit_text_changed(new_text: String) -> void:
 		label.visible = false
 	if not new_text:
 		return
-	var path: String = Globals.open_file.path_join(new_text)
+	var path: String = Globals.get_open_file().get_base_dir().path_join(new_text)
 	if not FileAccess.file_exists(path):
 		not_found_label.visible = true
 	else:

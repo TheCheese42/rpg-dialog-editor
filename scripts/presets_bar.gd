@@ -94,7 +94,7 @@ func _open_generic_preset_editor(preset: String) -> void:
 	editor.preset_changed.connect(func(new: Dictionary) -> void:
 		Globals.generic_presets[preset] = new
 		Globals.set_saved(false))
-	get_tree().root.add_child(editor)
+	get_tree().root.find_child("Popups", true, false).add_child(editor)
 
 
 func rebuild_ui() -> void:

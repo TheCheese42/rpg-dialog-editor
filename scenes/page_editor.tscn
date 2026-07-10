@@ -34,7 +34,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_4hffw")
-color = Color(0, 0, 0, 0.78431374)
+color = Color(0, 0, 0, 0.39215687)
 
 [node name="PanelContainer" type="PanelContainer" parent="ColorRect" unique_id=841672996]
 layout_mode = 1
