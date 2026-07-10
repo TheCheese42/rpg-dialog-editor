@@ -88,8 +88,6 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 	var parent_component: DialogFile.DialogComponent = parent.get_metadata(0)
 	var parent_contents: Array = (parent_component.get("contents"))
 	if not is_instance_of(data, DialogFile.DialogComponent):
-		# This if statement is the last resort solution to prevent an error
-		# from showing up. Do not try to investigate.
 		parent_contents.erase(component)
 	match drop_section:
 		-1:  # Previous sibling
@@ -172,6 +170,15 @@ func free_selected() -> void:
 	if selected:
 		var component: DialogFile.DialogComponent = selected.get_metadata(0)
 		component.unregister()
+		var parent: TreeItem = selected.get_parent()
+		if parent:
+			var parent_component: DialogFile.DialogComponent = (
+				parent.get_metadata(0))
+			if is_instance_of(component, DialogFile.Choice):
+				(parent_component as DialogFile.Page).contents.erase(component)
+			else:
+				var contents: Array = parent_component.get("contents")
+				contents.erase(component)
 		selected.free()
 		Globals.set_saved(false)
 
@@ -244,14 +251,27 @@ func _on_button_clicked(
 		var page: DialogFile.Page = item.get_metadata(0)
 		var editor: PageEditor = _page_editor_scene.instantiate()
 		add_child(editor)
-		editor.load_text(page.text)
-		editor.text_changed.connect(_update_page_text.bind(item, page))
+		editor.load_text(
+			page.text,
+			page.interjection.name,
+			page.interjection.text,
+			page.preset,
+		)
+		editor.confirmed.connect(_update_page_text.bind(item, page))
 
 
 func _update_page_text(
-	text: String, item: TreeItem, page: DialogFile.Page,
+	text: String,
+	int_speaker: String,
+	int_text: String,
+	preset: String,
+	item: TreeItem,
+	page: DialogFile.Page,
 ) -> void:
 	page.text = text
+	page.interjection.name = int_speaker
+	page.interjection.text = int_text
+	page.preset = preset
 	item.set_text(0, str(page))
 	Globals.set_saved(false)
 
@@ -268,25 +288,40 @@ func _input(_event: InputEvent) -> void:
 			if is_instance_of(meta_component, DialogFile.Page):
 				_on_button_clicked(item, 0, -1, MOUSE_BUTTON_LEFT)
 	elif Input.is_action_just_pressed("add_speaker"):
-		component = speaker_button.component.duplicate(true)
+		component = speaker_button.new_component()
 	elif Input.is_action_just_pressed("add_page"):
-		component = page_button.component.duplicate(true)
+		component = page_button.new_component()
 	elif Input.is_action_just_pressed("add_choice"):
-		component = choice_button.component.duplicate(true)
+		component = choice_button.new_component()
 	elif Input.is_action_just_pressed("add_goto"):
-		component = goto_button.component.duplicate(true)
+		component = goto_button.new_component()
 	elif Input.is_action_just_pressed("add_script"):
-		component = script_button.component.duplicate(true)
+		component = script_button.new_component()
 	if component:
 		var selected_parent: TreeItem = get_selected()
 		if selected_parent == null:
 			selected_parent = get_root()
-		var item: TreeItem = selected_parent.create_child()
-		apply_component_to_item(item, component)
-		if is_instance_of(component, DialogFile.Page):
-			item.add_button(0, preload("res://assets/icons/edit.svg"))
-		item.set_editable(0, true)
-		deselect_all()
-		item.select(0)
-		_on_multi_selected(item, 0, true)
-		Globals.set_saved(false)
+		var parent: DialogFile.DialogComponent = selected_parent.get_metadata(0)
+		if (
+			(is_instance_of(parent, DialogFile.Conversation)
+			or is_instance_of(parent, DialogFile.Speaker)
+			or is_instance_of(parent, DialogFile.Choice))
+			and is_instance_of(component, DialogFile.ConversationContent)
+		) or (
+			is_instance_of(parent, DialogFile.Page)
+			and is_instance_of(component, DialogFile.Choice)
+		):
+			var item: TreeItem = selected_parent.create_child()
+			apply_component_to_item(item, component)
+			if is_instance_of(component, DialogFile.Page):
+				item.add_button(0, preload("res://assets/icons/edit.svg"))
+			item.set_editable(0, true)
+			var pos: int = 0
+			for i: int in selected_parent.get_child_count():
+				if selected_parent.get_child(i) == item:
+					pos = i
+			(parent.get("contents") as Array).insert(pos, component)
+			deselect_all()
+			item.select(0)
+			_on_multi_selected(item, 0, true)
+			Globals.set_saved(false)

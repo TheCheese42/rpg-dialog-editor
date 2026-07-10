@@ -1,0 +1,121 @@
+[gd_scene format=3 uid="uid://do87ca0k5a1k8"]
+
+[ext_resource type="Theme" uid="uid://hdtefxg65t2c" path="res://theme/content_theme.tres" id="1_pfgvu"]
+[ext_resource type="Script" uid="uid://biyk4e0qnfva2" path="res://scripts/language.gd" id="1_yrgbr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yrgbr"]
+bg_color = Color(0.3515629, 0.35156292, 0.35156274, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="LabelSettings" id="LabelSettings_pfgvu"]
+font_color = Color(0.19607843, 0.8039216, 0.19607843, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_yrgbr"]
+font_color = Color(1, 0.27058825, 0, 1)
+
+[node name="Language" type="CanvasLayer" unique_id=2117671081]
+layer = 2
+script = ExtResource("1_yrgbr")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1775369202]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_pfgvu")
+color = Color(0, 0, 0, 0.39215687)
+
+[node name="PanelContainer" type="PanelContainer" parent="ColorRect" unique_id=354756736]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yrgbr")
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/PanelContainer" unique_id=1752906043]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PanelContainer/MarginContainer" unique_id=1887617908]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="GridContainer" type="GridContainer" parent="ColorRect/PanelContainer/MarginContainer/VBoxContainer" unique_id=1777802035]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="Label" type="Label" parent="ColorRect/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=604533415]
+layout_mode = 2
+text = "Locale:"
+
+[node name="LocaleEdit" type="LineEdit" parent="ColorRect/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=1194125031]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+tooltip_text = "Format: langcode_COUNTRYCODE (both are 2 letters)."
+placeholder_text = "Example: \"en_US\""
+
+[node name="Label2" type="Label" parent="ColorRect/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=1798008750]
+layout_mode = 2
+text = "Relative path to original:"
+
+[node name="PathEdit" type="LineEdit" parent="ColorRect/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=1732408604]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+tooltip_text = "Leave empty to mark this as original."
+placeholder_text = "Example: \"../dialog_en_US.dia\""
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PanelContainer/MarginContainer/VBoxContainer" unique_id=1529815813]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="FoundLabel" type="Label" parent="ColorRect/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=849717230]
+visible = false
+layout_mode = 2
+text = "Original found."
+label_settings = SubResource("LabelSettings_pfgvu")
+
+[node name="NotFoundLabel" type="Label" parent="ColorRect/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=986377080]
+visible = false
+layout_mode = 2
+text = "Original not found."
+label_settings = SubResource("LabelSettings_yrgbr")
+
+[node name="InvalidLabel" type="Label" parent="ColorRect/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=742580580]
+visible = false
+layout_mode = 2
+text = "Original is not a valid dialog file."
+label_settings = SubResource("LabelSettings_yrgbr")
+
+[node name="Control" type="Control" parent="ColorRect/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1862003712]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CancelButton" type="Button" parent="ColorRect/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=2093459896]
+layout_mode = 2
+text = "Cancel"
+
+[node name="ConfirmButton" type="Button" parent="ColorRect/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1170857056]
+layout_mode = 2
+text = "Confirm"
+
+[connection signal="text_changed" from="ColorRect/PanelContainer/MarginContainer/VBoxContainer/GridContainer/PathEdit" to="." method="_on_path_edit_text_changed"]
+[connection signal="pressed" from="ColorRect/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="ColorRect/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ConfirmButton" to="." method="_on_confirm_button_pressed"]

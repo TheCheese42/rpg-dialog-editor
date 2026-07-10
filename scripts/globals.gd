@@ -9,6 +9,8 @@ var DEFAULT_GENERIC_PRESET: Dictionary = {
 	"shake_speed": 0,
 }
 
+var locale: String = ""
+var relative_path_to_original: String = ""
 var conversations: Array[DialogFile.Conversation] = []
 var generic_presets: Dictionary[String, Dictionary] = {
 	"Default": DEFAULT_GENERIC_PRESET

@@ -80,7 +80,7 @@ theme_override_constants/separation = 10
 layout_mode = 2
 text = "Preset:"
 
-[node name="OptionButton" type="OptionButton" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=348916815]
+[node name="PresetsOption" type="OptionButton" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=348916815]
 layout_mode = 2
 size_flags_horizontal = 3
 

@@ -1,7 +1,8 @@
+@tool
 class_name DialogUID
 extends Resource
 
-var _uid: String
+@export var _uid: String
 
 
 func _init(uid: String = "") -> void:

@@ -432,9 +432,9 @@ layout_mode = 2
 shortcut = SubResource("Shortcut_fce0a")
 text = "Save as..."
 
-[node name="TranslateButton" type="Button" parent="MarginContainer2/HBoxContainer" unique_id=2006840388]
+[node name="LanguageButton" type="Button" parent="MarginContainer2/HBoxContainer" unique_id=2006840388]
 layout_mode = 2
-text = "Translate"
+text = "Language..."
 icon = ExtResource("23_4jiep")
 
 [connection signal="item_selected" from="MarginContainer/HSplitContainer/ConversationList/ConversationList" to="MarginContainer/HSplitContainer/ConversationList" method="_on_conversation_list_item_selected"]
@@ -470,3 +470,4 @@ icon = ExtResource("23_4jiep")
 [connection signal="pressed" from="MarginContainer2/HBoxContainer/OpenButton" to="." method="_on_open_button_pressed"]
 [connection signal="pressed" from="MarginContainer2/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="MarginContainer2/HBoxContainer/SaveAsButton" to="." method="_on_save_as_button_pressed"]
+[connection signal="pressed" from="MarginContainer2/HBoxContainer/LanguageButton" to="." method="_on_language_button_pressed"]
