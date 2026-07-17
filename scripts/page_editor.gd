@@ -101,5 +101,8 @@ func _update_preview(instant: bool = true) -> void:
 	page.interjection = interjection
 	if instant:
 		dialog_box.skip_to_end()
-	await dialog_box.execute_page(page, SpeakerMeta.new())
+	await dialog_box.execute_page(page, SpeakerMeta.new(
+		"", null, null, preview_margin.theme.default_font,
+		preview_margin.theme.default_font_size,
+	))
 	page.unregister()

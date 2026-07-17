@@ -45,9 +45,9 @@ color = Color(0, 0, 0, 0.39215687)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.2
-anchor_top = 0.17
+anchor_top = 0.195
 anchor_right = 0.8
-anchor_bottom = 0.83
+anchor_bottom = 0.805
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_u7vwm")
@@ -128,7 +128,7 @@ size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer" unique_id=649964619]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="PreviewMargin" type="MarginContainer" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer" unique_id=978275700]
 layout_mode = 2
@@ -137,7 +137,7 @@ theme = SubResource("Theme_a00km")
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer" unique_id=2025067149]
 layout_mode = 2
@@ -160,6 +160,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer2" unique_id=2057000504]
+custom_minimum_size = Vector2(331, 183)
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
@@ -168,9 +169,8 @@ text = "[center]Reference[/center][font_size=12]
 Everything is reset at the end of the line.
 Color: <c preset> <c 8-digit hex> <c> (reset)
 Speed: <s preset> <s n> <s> (reset)
+[ul]Commas have a tripled delay, dots are quintupled[/ul]
 Delay: <d preset> <d n>
-Set cursor: <cur n> <cur> (to end)
-Backspace: <b n>
 Wave: <wave n_intensity n_speed> <wave> (reset)
 Shake: <shake n_intensity n_speed> <shake> (reset)
 Variable: {path}
