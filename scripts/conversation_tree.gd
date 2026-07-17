@@ -250,6 +250,7 @@ func _on_button_clicked(
 	if mouse_button_index == MOUSE_BUTTON_LEFT:
 		var page: DialogFile.Page = item.get_metadata(0)
 		var editor: PageEditor = _page_editor_scene.instantiate()
+		editor.init(_conversation)
 		get_tree().root.find_child("Popups", true, false).add_child(editor)
 		editor.load_text(
 			page.text,

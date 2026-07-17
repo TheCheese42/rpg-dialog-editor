@@ -8,7 +8,6 @@ var DEFAULT_GENERIC_PRESET: Dictionary = {
 	"shake_intensity": 0,
 	"shake_speed": 0,
 }
-
 var locale: String
 var relative_path_to_original: String
 var conversations: Array[DialogFile.Conversation]

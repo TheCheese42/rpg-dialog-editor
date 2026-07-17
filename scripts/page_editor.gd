@@ -12,13 +12,26 @@ signal confirmed(
 @onready var interjection_speaker_edit: LineEdit = $ColorRect/PanelContainer/MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/InterjectionSpeakerEdit
 @onready var interjection_text_edit: LineEdit = $ColorRect/PanelContainer/MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/InterjectionTextEdit
 @onready var presets_option: OptionButton = $ColorRect/PanelContainer/MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PresetsOption
+@onready var preview_margin: MarginContainer = $ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/PreviewMargin
+
+var _dialog_box_scene: PackedScene = preload("res://addons/rpg_dialog_printer/dialog_box.tscn")
+var _conversation: DialogFile.Conversation
+
+
+func init(conversation: DialogFile.Conversation) -> void:
+	_conversation = conversation
 
 
 func _ready() -> void:
 	text_edit.grab_focus()
 	await get_tree().create_timer(0.0).timeout
-	# Delete new line inserted by ctrl+space shortcut
+	# Delete newline inserted by ctrl+space shortcut
 	text_edit.text = text_edit.text.rstrip(" \n")
+	text_edit.text_changed.connect(_update_preview)
+	interjection_text_edit.text_changed.connect(
+		func(_text: String) -> void: await _update_preview()
+	)
+	await _update_preview()
 
 
 func _input(_event: InputEvent) -> void:
@@ -60,3 +73,33 @@ func _on_confirm_button_pressed() -> void:
 		presets_option.text,
 	)
 	queue_free()
+
+
+func _on_preview_button_pressed() -> void:
+	await _update_preview(false)
+
+
+func _update_preview(instant: bool = true) -> void:
+	for child: Node in preview_margin.get_children():
+		child.queue_free()
+	var dialog_box: DialogBox = _dialog_box_scene.instantiate()
+	preview_margin.add_child(dialog_box)
+	#await get_tree().process_frame
+	dialog_box.init(
+		_conversation,
+		Globals.generic_presets,
+		Globals.color_presets,
+		Globals.speed_presets,
+		Globals.delay_presets,
+		{},
+	)
+	var page := DialogFile.Page.new()
+	page.text = text_edit.text
+	var interjection := DialogFile.Interjection.new()
+	interjection.name = ""  # We don't have the portrait anyway
+	interjection.text = interjection_text_edit.text
+	page.interjection = interjection
+	if instant:
+		dialog_box.skip_to_end()
+	await dialog_box.execute_page(page, SpeakerMeta.new())
+	page.unregister()

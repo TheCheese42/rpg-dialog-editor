@@ -2,6 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://hdtefxg65t2c" path="res://theme/content_theme.tres" id="1_4hffw"]
 [ext_resource type="Script" uid="uid://fsp7vlv7bge3" path="res://scripts/page_editor.gd" id="1_xdxl0"]
+[ext_resource type="FontFile" uid="uid://d2fh0ynychj71" path="res://assets/Habbo.ttf" id="3_7ckjq"]
 [ext_resource type="Texture2D" uid="uid://cvvt8qjmybjtg" path="res://assets/icons/play.svg" id="3_e8hy1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u7vwm"]
@@ -12,6 +13,10 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4au61"]
+
+[sub_resource type="Theme" id="Theme_a00km"]
+default_font = ExtResource("3_7ckjq")
+default_font_size = 31
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ckjq"]
 
@@ -40,9 +45,9 @@ color = Color(0, 0, 0, 0.39215687)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.2
-anchor_top = 0.2
+anchor_top = 0.17
 anchor_right = 0.8
-anchor_bottom = 0.8
+anchor_bottom = 0.83
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_u7vwm")
@@ -125,16 +130,21 @@ size_flags_vertical = 3
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="PreviewHFlow" type="HFlowContainer" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer" unique_id=673162079]
+[node name="PreviewMargin" type="MarginContainer" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer" unique_id=978275700]
 layout_mode = 2
 size_flags_vertical = 3
+theme = SubResource("Theme_a00km")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="MarginContainer" type="MarginContainer" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer" unique_id=2025067149]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="Button" type="Button" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer" unique_id=113297332]
+[node name="PreviewButton" type="Button" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer" unique_id=113297332]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_styles/normal = SubResource("StyleBoxEmpty_7ckjq")
@@ -155,13 +165,14 @@ size_flags_vertical = 3
 bbcode_enabled = true
 text = "[center]Reference[/center][font_size=12]
 [ul]
-Color: <c preset> <c 8-digit hex>
-Speed: <s preset> <s n>
+Everything is reset at the end of the line.
+Color: <c preset> <c 8-digit hex> <c> (reset)
+Speed: <s preset> <s n> <s> (reset)
 Delay: <d preset> <d n>
-Set cursor: <cur n>
+Set cursor: <cur n> <cur> (to end)
 Backspace: <b n>
-Wave: <wave n_intensity n_speed>
-Shake: <shake n_intensity n_speed>
+Wave: <wave n_intensity n_speed> <wave> (reset)
+Shake: <shake n_intensity n_speed> <shake> (reset)
 Variable: {path}
 Placeholder: {n}[/ul][/font_size]"
 
@@ -200,5 +211,6 @@ size_flags_vertical = 8
 theme_override_font_sizes/font_size = 12
 text = "Confirm"
 
+[connection signal="pressed" from="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/MarginContainer/PreviewButton" to="." method="_on_preview_button_pressed"]
 [connection signal="pressed" from="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer2/RichTextLabel/MarginContainer/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
 [connection signal="pressed" from="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer2/RichTextLabel/MarginContainer/HBoxContainer/ConfirmButton" to="." method="_on_confirm_button_pressed"]
