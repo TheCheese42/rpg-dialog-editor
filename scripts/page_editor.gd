@@ -14,7 +14,7 @@ signal confirmed(
 @onready var presets_option: OptionButton = $ColorRect/PanelContainer/MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PresetsOption
 @onready var preview_margin: MarginContainer = $ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/PreviewMargin
 
-var _dialog_box_scene: PackedScene = preload("res://addons/rpg_dialog_printer/dialog_box.tscn")
+var _dialog_box_scene: PackedScene = preload("res://addons/rpg_dialog_display/dialog_box.tscn")
 var _conversation: DialogFile.Conversation
 
 
