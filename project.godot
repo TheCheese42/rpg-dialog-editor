@@ -41,7 +41,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/rpg_dialog_printer/plugin.cfg")
+enabled=PackedStringArray("res://addons/rpg_dialog_display/plugin.cfg", "res://addons/rpg_dialog_printer/plugin.cfg")
 
 [input]
 
