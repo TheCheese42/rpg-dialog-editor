@@ -91,7 +91,10 @@ func _update_preview(instant: bool = true) -> void:
 		Globals.color_presets,
 		Globals.speed_presets,
 		Globals.delay_presets,
-		{},
+		{"": SpeakerMeta.new(
+			"", null, null, preview_margin.theme.default_font,
+			preview_margin.theme.default_font_size,
+		)},
 	)
 	var page := DialogFile.Page.new()
 	page.text = text_edit.text
@@ -99,8 +102,11 @@ func _update_preview(instant: bool = true) -> void:
 	interjection.name = ""  # We don't have the portrait anyway
 	interjection.text = interjection_text_edit.text
 	page.interjection = interjection
+	# -1 Because the first option is an empty string to use the conversation
+	# preset.
+	page.preset = Globals.generic_preset_names[maxi(0, presets_option.selected - 1)]
 	if instant:
-		dialog_box.skip_to_end()
+		dialog_box.skip = true
 	await dialog_box.execute_page(page, SpeakerMeta.new(
 		"", null, null, preview_margin.theme.default_font,
 		preview_margin.theme.default_font_size,
