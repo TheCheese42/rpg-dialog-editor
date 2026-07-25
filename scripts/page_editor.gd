@@ -104,6 +104,6 @@ func _update_preview(instant: bool = true) -> void:
 	# preset.
 	page.preset = Globals.generic_preset_names[maxi(0, presets_option.selected - 1)]
 	if instant:
-		dialog_box.skip = true
+		dialog_box.skip_to_end()
 	await dialog_box.execute_page(page, "")
 	page.unregister()

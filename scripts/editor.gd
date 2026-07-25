@@ -87,6 +87,7 @@ func _open_file_dialog() -> void:
 
 func _open_file(path: String) -> void:
 	Globals.options.last_working_dir = path.get_base_dir()
+	Globals.save_options()
 	DirAccess.copy_absolute(path, "user://import.tres")
 	var dialog: DialogFile = load("user://import.tres")
 	DirAccess.remove_absolute("user://import.tres")
@@ -144,6 +145,7 @@ func _on_save_as_button_pressed() -> void:
 
 func _save_file(path: String) -> void:
 	Globals.options.last_working_dir = path.get_base_dir()
+	Globals.save_options()
 	var dialog := DialogFile.new()
 	dialog.locale = Globals.locale
 	dialog.relative_path_to_original = Globals.relative_path_to_original
