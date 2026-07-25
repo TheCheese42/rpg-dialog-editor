@@ -101,7 +101,7 @@ func _open_file(path: String) -> void:
 		add_child(err_dialog)
 		err_dialog.popup_centered()
 		return
-	Globals.uid_objects.clear()
+	Globals.reset()
 	Globals.locale = dialog.locale
 	Globals.relative_path_to_original = dialog.relative_path_to_original
 	Globals.generic_presets = dialog.presets
@@ -112,7 +112,6 @@ func _open_file(path: String) -> void:
 	Globals.speed_preset_names = dialog.speed_presets.keys()
 	Globals.delay_presets = dialog.delay_presets
 	Globals.delay_preset_names = dialog.delay_presets.keys()
-	Globals.conversations.clear()
 	Globals.set_open_file(path)
 	for dict: Dictionary in dialog.conversations:
 		Globals.conversations.append(DialogFile.Conversation.from_dict(dict))

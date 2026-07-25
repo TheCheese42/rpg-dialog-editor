@@ -19,8 +19,6 @@ var speed_presets: Dictionary[String, int]
 var speed_preset_names: PackedStringArray
 var delay_presets: Dictionary[String, int]
 var delay_preset_names: PackedStringArray
-
-var uid_objects: Array[DialogUID]
 var options: Options = load_options()
 var _open_file: String
 var _is_saved: bool = true
@@ -77,7 +75,7 @@ func reset(should_set_saved: bool = true) -> void:
 	speed_preset_names = []
 	delay_presets = {}
 	delay_preset_names = []
-	uid_objects = []
+	DialogUID.uid_objects = []
 	set_open_file("")
 	if should_set_saved:
 		set_saved(true)
