@@ -84,9 +84,7 @@ func _update_preview(instant: bool = true) -> void:
 		child.queue_free()
 	var dialog_box: DialogBox = _dialog_box_scene.instantiate()
 	preview_margin.add_child(dialog_box)
-	#await get_tree().process_frame
 	dialog_box.init(
-		_conversation,
 		Globals.generic_presets,
 		Globals.color_presets,
 		Globals.speed_presets,
@@ -107,8 +105,5 @@ func _update_preview(instant: bool = true) -> void:
 	page.preset = Globals.generic_preset_names[maxi(0, presets_option.selected - 1)]
 	if instant:
 		dialog_box.skip = true
-	await dialog_box.execute_page(page, SpeakerMeta.new(
-		"", null, null, preview_margin.theme.default_font,
-		preview_margin.theme.default_font_size,
-	))
+	await dialog_box.execute_page(page, "")
 	page.unregister()
