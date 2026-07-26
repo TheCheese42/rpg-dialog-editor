@@ -256,6 +256,7 @@ func _on_button_clicked(
 			page.text,
 			page.interjection.name,
 			page.interjection.text,
+			page.allow_skip,
 			page.preset,
 		)
 		editor.confirmed.connect(_update_page_text.bind(item, page))
@@ -265,6 +266,7 @@ func _update_page_text(
 	text: String,
 	int_speaker: String,
 	int_text: String,
+	allow_skip: bool,
 	preset: String,
 	item: TreeItem,
 	page: DialogFile.Page,
@@ -272,6 +274,7 @@ func _update_page_text(
 	page.text = text
 	page.interjection.name = int_speaker
 	page.interjection.text = int_text
+	page.allow_skip = allow_skip
 	page.preset = preset
 	item.set_text(0, str(page))
 	Globals.set_saved(false)

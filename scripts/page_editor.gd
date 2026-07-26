@@ -5,6 +5,7 @@ signal confirmed(
 	text: String,
 	interjection_speaker: String,
 	interjection_text: String,
+	allow_skip: bool,
 	preset: String,
 )
 
@@ -13,6 +14,7 @@ signal confirmed(
 @onready var interjection_text_edit: LineEdit = $ColorRect/PanelContainer/MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/InterjectionTextEdit
 @onready var presets_option: OptionButton = $ColorRect/PanelContainer/MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PresetsOption
 @onready var preview_margin: MarginContainer = $ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/PreviewMargin
+@onready var allow_skip_check: CheckBox = $ColorRect/PanelContainer/MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/AllowSkipCheck
 
 var _dialog_box_scene: PackedScene = preload("res://addons/rpg_dialog_display/dialog_box.tscn")
 var _conversation: DialogFile.Conversation
@@ -43,11 +45,13 @@ func load_text(
 	text: String,
 	int_speaker: String,
 	int_text: String,
+	allow_skip: bool,
 	preset: String,
 ) -> void:
 	text_edit.text = text
 	interjection_speaker_edit.text = int_speaker
 	interjection_text_edit.text = int_text
+	allow_skip_check.button_pressed = allow_skip
 	presets_option.clear()
 	presets_option.add_item("")
 	var preset_idx: int = 0
@@ -70,6 +74,7 @@ func _on_confirm_button_pressed() -> void:
 		text_edit.text,
 		interjection_speaker_edit.text,
 		interjection_text_edit.text,
+		allow_skip_check.button_pressed,
 		presets_option.text,
 	)
 	queue_free()
@@ -103,7 +108,5 @@ func _update_preview(instant: bool = true) -> void:
 	# -1 Because the first option is an empty string to use the conversation
 	# preset.
 	page.preset = Globals.generic_preset_names[maxi(0, presets_option.selected - 1)]
-	if instant:
-		dialog_box.skip_to_end()
-	await dialog_box.execute_page(page, "")
+	await dialog_box.execute_page(page, "", "", instant)
 	page.unregister()

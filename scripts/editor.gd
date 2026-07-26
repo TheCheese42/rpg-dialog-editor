@@ -78,7 +78,7 @@ func _open_file_dialog() -> void:
 	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 	file_dialog.current_dir = Globals.options.last_working_dir
-	file_dialog.add_filter("*.dia", "Dialog Resource")
+	file_dialog.add_filter("*.dia, *.tres", "Dialog Resource")
 	file_dialog.file_selected.connect(_open_file)
 	await get_tree().create_timer(0.0).timeout
 	add_child(file_dialog)
@@ -136,7 +136,7 @@ func _on_save_as_button_pressed() -> void:
 	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
 	file_dialog.current_dir = Globals.options.last_working_dir
-	file_dialog.add_filter("*.dia", "Dialog Resource")
+	file_dialog.add_filter("*.dia, *.tres", "Dialog Resource")
 	file_dialog.file_selected.connect(_save_file)
 	await get_tree().create_timer(0.0).timeout
 	add_child(file_dialog)

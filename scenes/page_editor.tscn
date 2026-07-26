@@ -117,6 +117,10 @@ size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 12
 placeholder_text = "Text"
 
+[node name="AllowSkipCheck" type="CheckBox" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1112735869]
+layout_mode = 2
+text = "Allow skip"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer" unique_id=565638066]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -156,8 +160,8 @@ text = "Start Preview"
 icon = ExtResource("3_e8hy1")
 
 [node name="PanelContainer2" type="PanelContainer" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=755238892]
-custom_minimum_size = Vector2(331, 183)
-custom_maximum_size = Vector2(-1, 183)
+custom_minimum_size = Vector2(331, 202)
+custom_maximum_size = Vector2(-1, 202)
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -176,6 +180,7 @@ Cursor position: <cur n> <cur> (set to end)
 Backspace: <b n> <b> (n = 1)
 Wave: <wave n_intensity n_speed> <wave> (reset)
 Shake: <shake n_intensity n_speed> <shake> (reset)
+Await script: <script ID>
 Variable: {path}
 Placeholder: {n}[/ul][/font_size]"
 scroll_active = false
